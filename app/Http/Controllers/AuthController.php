@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -34,11 +36,38 @@ class AuthController extends Controller
         $username = $request->input('text_username');
         $password = $request->input('text_password');
 
-        echo 'OK';
+        // checar se o usuário existe
+        $user = User::where('username', $username)->where('deleted_at', NULL)->first();
+        // se usuário não existir
+        if(!$user){
+            // redireciona-> pra trás-> guardando o input-> com um erro específico
+            return redirect()->back()->withInput()->with('loginError', 'Username ou password incorretos.');
+        }
+
+        // checar se a password existe
+        if(!password_verify($password, $user->password)){
+            return redirect()->back()->withInput()->with('loginError', 'Username ou password incorretos.');
+        }
+
+        // atualiza o último login
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->save();
+
+        // usuário logado
+        session([
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username
+            ]
+        ]);
+
+        echo "LOGIN COM SUCESSO";
     }
 
     public function logout()
     {
-        echo "logout";
+        // logout da aplicação
+        session()->forget('user');
+        return redirect()->to('/login');
     }
 }

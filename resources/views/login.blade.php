@@ -24,8 +24,8 @@
                                     @error('text_username')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="text_password" class="form-label">Password</label>
                                     <input type="password" class="form-control bg-dark text-info" name="text_password" value="{{ old('text_password') }}" required>
@@ -33,12 +33,20 @@
                                     @error('text_password')
                                     <div class="text-danger">{{ $message }}</div>
                                     @enderror
-
                                 </div>
+
                                 <div class="my-4">
                                     <button type="submit" class="btn btn-secondary w-100 fw-semibold">LOGIN</button>
                                 </div>
                             </form>
+
+                            {{-- login inválido --}}
+                            @if(session('loginError'))
+                                <div class="alert alert-danger text-center">
+                                    {{ session('loginError') }}
+                                </div>
+                            @endif
+
                         </div>
                     </div>
 
