@@ -1,6 +1,6 @@
 @extends('layouts.main_layout')
 @section('content')
-    <div class="container mt-5">
+    <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col">
 
@@ -19,9 +19,6 @@
 
                 @else
 
-                <!-- temp -->
-                {{-- <hr class="my-5"> --}}
-
                 <!-- Notas disponíveis -->
                 <div class="d-flex justify-content-end my-4">
                     <a href="{{ route('new') }}" class="btn btn-secondary px-3">
@@ -37,5 +34,8 @@
 
             </div>
         </div>
+        @include('footer')
     </div>
+
+
 @endsection
